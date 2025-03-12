@@ -55,17 +55,7 @@ BLEService *pService = nullptr;
 bool deviceConnected = false;
 String receivedData = "";
 
-void showBLEData(int output, const char* input){
-  static int _output;
-  static const char* _input;
-  
-  if (output != -1){
-    _output = output;
-  }
-  else{
-    _input = input;
-  }
-  
+void showBLEData(int output){
   display.clearDisplay();
   display.setCursor(0, 0);
 
@@ -73,7 +63,7 @@ void showBLEData(int output, const char* input){
   display.println(output);
 
   display.print("IN: ");
-  display.println(input);
+  display.println(receivedData);
   display.display();
 }
 
@@ -97,7 +87,6 @@ class MyCallbacks : public BLECharacteristicCallbacks {
           Serial.print("수신된 데이터: ");
           Serial.println(receivedData.c_str());
 
-          showBLEData(-1, receivedData.c_str());
           // 데이터 확인 후 응답 전송 (예: "OK" 응답)
           String response = "ESP_ACK: " + receivedData;
           pCharacteristic->setValue(response);
@@ -387,7 +376,7 @@ void BLETest(){
       String message = String("ESP32 Y: ") + String(analogRead(JOY_V));
       pCharacteristic->setValue(message);
       pCharacteristic->notify();
-      showBLEData(analogRead(JOY_V), nullptr);
+      showBLEData(analogRead(JOY_V));
       delay(100); //cpu양보
     }
     else{

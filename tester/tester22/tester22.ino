@@ -74,7 +74,6 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     }
 };
 
-
 //lcd***************************************************************
 Adafruit_SSD1306 display(LCD_W, LCD_H, &Wire, -1);
 
@@ -325,12 +324,12 @@ void home(){
 void wifiTest() {
   showmsg("WiFi testing is not supported");
 
-  delay(1000);
+  delay(4000);
   state = 0; //home으로 return
 }
 
 void initBLE(){
-  BLEDevice::init("ESP32_BLE");
+  BLEDevice::init("ESP32_BLE_TESTER");
 
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
